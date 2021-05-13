@@ -1,0 +1,31 @@
+# 導入套件 pandas numpy matplotlib cuff 
+import pandas as pd
+import numpy
+import matplotlib.pyplot as plt
+import cufflinks as cf
+from pandas_datareader import data
+
+# 從Yahoo finance 讀取新聞資料 
+df = data.DataReader(name = "TSLA", data_source = "yahoo", start = "2021-01", end ="2021-05")
+df.info() 
+
+symbol = ["AAPL", "GE", "TSLA"]
+df = data.DataReader(name = symbol, data_source = "yahoo", start = "2020-03", end ="2021-05")
+df.head()
+
+df.to_csv("/Users/Cody/Desktop/sample_project/stocks.csv") #將上述讀取資料存入至電腦絕對位置中
+
+pd.read_csv("/Users/Cody/Desktop/sample_project/stocks.csv",header =[0,1], index_col= 0, parse_dates = [0] )
+
+df.Close.GE # 已GE為例，從202003開始每天收盤價
+
+df.Close.GE.plot(figsize = (12, 8))
+plt.show()
+
+df.loc["2020-06":, ("Close", "GE")].iplot() #運用cufflinks套件 對比上面Pandas套件
+
+cf.set_config_file(offline = True)
+
+df.Close.iplot() # 繪圖
+
+cf.colors.scales()
